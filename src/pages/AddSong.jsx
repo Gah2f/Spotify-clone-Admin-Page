@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import assets from "../assets/admin-assets/assets";
 import axios from "axios";
 import { baseUrl } from "../App";
@@ -18,13 +18,14 @@ function AddSong() {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append('Name', songName);
-      formData.append('Description', desc);
-      formData.append('Image', image);
-      formData.append('AudioFile', song);
-      formData.append('Album', album);
+      formData.append('name', songName);
+      formData.append('desc', desc);
+      formData.append('image', image);
+      formData.append('audio', song);
+      formData.append('album', album);
       
       const response = await axios.post(`${baseUrl}/api/songs/add`, formData);
+      // console.log('The response is:',response.data);
       if (response.data.success) {
         toast.success("Song added successfully");
         setSongName('');
@@ -39,7 +40,26 @@ function AddSong() {
       toast.error("Error Occured while adding song");
     }
     setLoading(false);
+
+  
   }
+  const loadAlbumData = async ()=>{
+    try {
+      const response = await axios.get(`${baseUrl}/api/albums/lists`);
+
+      if(response.data.success){
+        setAlbumData(response.data.albums);
+      } else {
+        toast.error('Unable to load albums data')
+      }
+    } catch (error) {
+      toast.error('Error occured')
+    }
+  }
+
+  useEffect(()=>{
+    loadAlbumData();
+  },[])
   return loading ? (
     <div className="grid place-items-center min-h-[80vh]">
       <div className="w-16 h-16 place-self-center border-4 border-gray-400 border-t-green-800 rounded-full animate-spin">
@@ -99,7 +119,15 @@ function AddSong() {
       <div className="flex flex-col gap-2.5">
         <p>Album</p>
         <select className="bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[150px]" defaultValue={album} onChange={(e)=>setAlbum(e.target.value)}>
-          <option value="none">None</option>
+          <option value="none">
+            {
+              albumData.map((item, index)=>(
+                <option key={index} value={item.name}>
+                  {item.name}
+                </option>
+              ))
+            }
+          </option>
         </select>
       </div>
       <button
