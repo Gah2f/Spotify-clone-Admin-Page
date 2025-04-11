@@ -118,17 +118,23 @@ function AddSong() {
 
       <div className="flex flex-col gap-2.5">
         <p>Album</p>
-        <select className="bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[150px]" defaultValue={album} onChange={(e)=>setAlbum(e.target.value)}>
-          <option value="none">
-            {
-              albumData.map((item, index)=>(
-                <option key={index} value={item.name}>
-                  {item.name}
-                </option>
-              ))
-            }
-          </option>
-        </select>
+        <div className="relative">
+  <select 
+    className="bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[150px] appearance-none"
+    defaultValue={album}
+    onChange={(e) => setAlbum(e.target.value)}
+  >
+    <option value="none">Select an album</option>
+    {albumData.map((item, index) => (
+      <option key={index} value={item.name}>
+        {item.name}
+      </option>
+    ))}
+  </select>
+  <div className="absolute right-3 top-3 pointer-events-none">
+    ▼
+  </div>
+</div>
       </div>
       <button
         type="submit"
