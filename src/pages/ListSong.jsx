@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { baseUrl } from "../App";
 import { toast } from "react-toastify";
-// import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 function ListSong() {
   const [data, setData] = useState([]);
@@ -58,7 +59,7 @@ function ListSong() {
                 <p>{singleSong.name}</p>
                 <p>{singleSong.album}</p>
                 <p>{singleSong.duration}</p>
-                <p onClick={()=>removeSong(singleSong._id)}>x</p>
+                <p onClick={()=>removeSong(singleSong._id)} className="cursor-pointer hover:text-red-500"><DeleteIcon/></p>
               </div>
             )
           })

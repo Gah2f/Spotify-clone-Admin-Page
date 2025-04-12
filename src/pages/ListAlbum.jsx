@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { baseUrl } from '../App';
 import { toast } from 'react-toastify';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function ListAlbum() {
   const [data, setData] = useState([]);
@@ -53,7 +54,7 @@ function ListAlbum() {
                   <p>{singleAlbum.name}</p>
                   <p>{singleAlbum.desc}</p>
                   <input type="color" value={singleAlbum.bgColor} />
-                  <p onClick={()=>removeAlbum(singleAlbum._id)} className='cursor-pointer'>x</p>
+                  <p onClick={()=>removeAlbum(singleAlbum._id)} className='cursor-pointer hover:text-red-500'><DeleteIcon/></p>
                 </div>
               )
             })
